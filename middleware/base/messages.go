@@ -1,4 +1,4 @@
-package api_messages
+package base
 
 import "time"
 

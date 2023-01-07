@@ -1,17 +1,16 @@
-package middleware
+package base
 
 import (
 	"encoding/json"
 	"net/http"
 	"simulator/env"
 	"simulator/logger"
-	"simulator/middleware/api-messages"
 	"time"
 )
 
 func Ping(w http.ResponseWriter, r *http.Request) {
 	// TODO: handle Encode errors
-	json.NewEncoder(w).Encode(api_messages.BasicResponse{
+	json.NewEncoder(w).Encode(BasicResponse{
 		Time:    time.Now(),
 		Message: "pong",
 	})
