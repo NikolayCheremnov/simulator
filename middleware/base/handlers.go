@@ -9,10 +9,27 @@ import (
 )
 
 func Ping(w http.ResponseWriter, r *http.Request) {
-	// TODO: handle Encode errors
-	json.NewEncoder(w).Encode(BasicResponse{
+	err := json.NewEncoder(w).Encode(BasicResponse{
 		Time:    time.Now(),
 		Message: "pong",
 	})
+	if ErrorHandling(err, "ping error", w) != nil {
+		return
+	}
 	logger.Info.Println("ping OK, port "+env.GetPortStr(), r.RemoteAddr)
+}
+
+func ErrorHandling(err error, msg string, w http.ResponseWriter) error {
+	if err != nil {
+		logger.Error.Println(err, ":", msg)
+		errRes := ErrorResponse{
+			ErrorType: err.Error(),
+			Message:   "error: " + msg,
+		}
+		fatalErr := json.NewEncoder(w).Encode(errRes)
+		if fatalErr != nil {
+			panic(fatalErr)
+		}
+	}
+	return err
 }
