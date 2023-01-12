@@ -2,14 +2,14 @@ package task
 
 import (
 	"github.com/google/uuid"
-	"simulator/core/random"
+	random2 "simulator/utils/random"
 	"strings"
 )
 
 func GenerateTaskPackage(count int) ([]Task, int, int) {
 	// randomizers
-	boolgen := random.BoolRandom()
-	intgen := random.IntRandom()
+	boolgen := random2.BoolRandom()
+	intgen := random2.IntRandom()
 	// tasks generation
 	var tasks []Task
 	total_required_cpu_time, total_required_io_time := 0, 0
@@ -44,7 +44,7 @@ func GenerateTaskPackage(count int) ([]Task, int, int) {
 			}
 		}
 		//
-		task.NexLiveTimeStep, task.NextRequiredStep = 0, 0
+		task.NextLiveTimeStep, task.NextRequiredStep = 0, 0
 		tasks = append(tasks, task)
 	}
 	return tasks, total_required_cpu_time, total_required_io_time

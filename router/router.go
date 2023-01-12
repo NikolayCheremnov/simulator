@@ -15,6 +15,7 @@ func Router() *mux.Router {
 
 	// tasks
 	router.HandleFunc("/api/generate-task-package", tasks.GenerateRandomTaskPackage).Methods("POST")
+	router.HandleFunc("/api/process-task-package", tasks.ProcessTaskPackage).Methods("POST")
 
 	return router
 }

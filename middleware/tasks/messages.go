@@ -1,13 +1,25 @@
 package tasks
 
-import "simulator/core/task"
+import (
+	"simulator/core/cpu"
+	"simulator/core/task"
+)
 
 type TaskPackageGenerationArgs struct {
 	Count int `json:"count"`
 }
 
 type GeneratedTaskPackage struct {
-	Tasks        []task.Task `json:"tasks"`
+	TaskPackage  []task.Task `json:"task_package"`
 	TotalCpuTime int         `json:"total_cpu_time"`
 	TotalIoTime  int         `json:"total_io_time"`
+}
+
+type TaskPackageProcessingArgs struct {
+	TaskPackage []task.Task `json:"task_package"`
+}
+
+type TaskPackageProcessingResult struct {
+	TaskPackage []task.Task     `json:"task_package"`
+	CpuInfo     cpu.WorkingInfo `json:"cpu_info"`
 }
