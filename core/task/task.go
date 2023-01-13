@@ -56,3 +56,35 @@ func (task *Task) IsCompleted() bool {
 func (task *Task) WorkLeft() int {
 	return len(task.RequiredSteps) - task.NextRequiredStep
 }
+
+func (task *Task) GetTime() int {
+	if !task.IsCompleted() {
+		panic("Task not completed")
+	}
+	return task.NextLiveTimeStep
+}
+
+func (task *Task) GetCpuTime() int {
+	return task.getLiveTime(CPU_STEP)
+}
+
+func (task *Task) GetIoTime() int {
+	return task.getLiveTime(IO_STEP)
+}
+
+func (task *Task) GetWaitingTime() int {
+	return task.getLiveTime(WAIT_STEP)
+}
+
+func (task *Task) getLiveTime(stepType StepType) int {
+	if !task.IsCompleted() {
+		panic("Task not completed")
+	}
+	time := 0
+	for _, liveTimeStep := range task.LiveTimeSteps {
+		if liveTimeStep == stepType {
+			time++
+		}
+	}
+	return time
+}

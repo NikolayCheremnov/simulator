@@ -10,9 +10,7 @@ type TaskPackageGenerationArgs struct {
 }
 
 type GeneratedTaskPackage struct {
-	TaskPackage  []task.Task `json:"task_package"`
-	TotalCpuTime int         `json:"total_cpu_time"`
-	TotalIoTime  int         `json:"total_io_time"`
+	TaskPackage []task.Task `json:"task_package"`
 }
 
 type TaskPackageProcessingArgs struct {

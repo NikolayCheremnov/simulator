@@ -7,6 +7,7 @@ import (
 	"simulator/core/task"
 	"simulator/logger"
 	"simulator/middleware/base"
+	"simulator/reports"
 )
 
 func GenerateRandomTaskPackage(w http.ResponseWriter, r *http.Request) {
@@ -16,9 +17,9 @@ func GenerateRandomTaskPackage(w http.ResponseWriter, r *http.Request) {
 	if base.ErrorHandling(err, "Can`t decode request body for GenerateRandomTaskPackage args", w) != nil {
 		return
 	}
-	tasks, totalCpuTime, totalIoTime := task.GenerateTaskPackage(args.Count)
+	tasks, _, _ := task.GenerateTaskPackage(args.Count)
 	result := GeneratedTaskPackage{
-		tasks, totalCpuTime, totalIoTime,
+		tasks,
 	}
 	logger.Info.Println("task package generated")
 	err = json.NewEncoder(w).Encode(result)
@@ -38,9 +39,41 @@ func ProcessTaskPackage(w http.ResponseWriter, r *http.Request) {
 		taskPackage,
 		cpuInfo,
 	}
-	logger.Info.Println("task package generated")
+	logger.Info.Println("task package processed")
 	err = json.NewEncoder(w).Encode(result)
 	if base.ErrorHandling(err, "Can`t encode result for ProcessTaskPackage", w) != nil {
+		return
+	}
+}
+
+func GenerateTaskPackageTimeReport(w http.ResponseWriter, r *http.Request) {
+	var args TaskPackageProcessingResult
+	err := json.NewDecoder(r.Body).Decode(&args)
+	if base.ErrorHandling(err, "Can`t decode request body for GenerateTaskPackageTimeReport args", w) != nil {
+		return
+	}
+	result := reports.GenerateTaskPackageTimeReport(args.TaskPackage)
+	logger.Info.Println("task package time report generated")
+	err = json.NewEncoder(w).Encode(result)
+	if base.ErrorHandling(err, "Can`t encode result for GenerateTaskPackageTimeReport", w) != nil {
+		return
+	}
+}
+
+func GenerateCpuActivityReport(w http.ResponseWriter, r *http.Request) {
+	result := reports.GenerateCpuActivityReport()
+	logger.Info.Println("cpu activity report generated")
+	err := json.NewEncoder(w).Encode(result)
+	if base.ErrorHandling(err, "Can`t encode result for GenerateCpuActivityReport", w) != nil {
+		return
+	}
+}
+
+func GenerateAverageTaskMetricsReport(w http.ResponseWriter, r *http.Request) {
+	result := reports.GenerateAverageTaskMetricsReport()
+	logger.Info.Println("average task metrics report generated")
+	err := json.NewEncoder(w).Encode(result)
+	if base.ErrorHandling(err, "Can`t encode result for GenerateAverageTaskMetricsReport", w) != nil {
 		return
 	}
 }

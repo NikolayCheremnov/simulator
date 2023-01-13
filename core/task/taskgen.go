@@ -12,44 +12,44 @@ func GenerateTaskPackage(count int) ([]Task, int, int) {
 	intgen := random2.IntRandom()
 	// tasks generation
 	var tasks []Task
-	total_required_cpu_time, total_required_io_time := 0, 0
+	totalRequiredCpuTime, totalRequiredIoTime := 0, 0
 	for i := 0; i < count; i++ {
 		var task Task
 		// 1. generate pid
 		task.PID = get_uuid()
 		// 2. generate live
-		required_cpu_time := intgen.Int(10, 100)
-		required_io_time := intgen.Int(100, 500)
-		total_required_cpu_time += required_cpu_time
-		total_required_io_time += required_io_time
+		requiredCpuTime := intgen.Int(100, 1000)
+		requiredIoTime := intgen.Int(100, 10000)
+		totalRequiredCpuTime += requiredCpuTime
+		totalRequiredIoTime += requiredIoTime
 		// disperse task time
-		for required_cpu_time != 0 && required_io_time != 0 {
-			if required_io_time == 0 {
+		for requiredCpuTime != 0 && requiredIoTime != 0 {
+			if requiredIoTime == 0 {
 				// then write remaining cpu time to task
-				for i := 0; i < required_cpu_time; i++ {
+				for i := 0; i < requiredCpuTime; i++ {
 					task.RequiredSteps = append(task.RequiredSteps, CPU_STEP)
 				}
-				required_cpu_time = 0
-			} else if required_cpu_time == 0 {
-				for i := 0; i < required_io_time; i++ {
+				requiredCpuTime = 0
+			} else if requiredCpuTime == 0 {
+				for i := 0; i < requiredIoTime; i++ {
 					task.RequiredSteps = append(task.RequiredSteps, IO_STEP)
 				}
-				required_io_time = 0
-			} else if boolgen.Bool() != boolgen.Bool() {
+				requiredIoTime = 0
+			} else if boolgen.Bool() {
 				task.RequiredSteps = append(task.RequiredSteps, CPU_STEP)
-				required_cpu_time--
+				requiredCpuTime--
 			} else {
 				task.RequiredSteps = append(task.RequiredSteps, IO_STEP)
-				required_io_time--
+				requiredIoTime--
 			}
 		}
 		//
 		task.NextLiveTimeStep, task.NextRequiredStep = 0, 0
 		tasks = append(tasks, task)
 	}
-	return tasks, total_required_cpu_time, total_required_io_time
+	return tasks, totalRequiredCpuTime, totalRequiredIoTime
 }
 
 func get_uuid() string {
-	return strings.Replace(uuid.New().String(), "-", "", -1)
+	return strings.Replace(uuid.New().String(), "-", "", -1)[:8]
 }
