@@ -1,6 +1,8 @@
 package cpu
 
-import "simulator/core/task"
+import (
+	"simulator/core/batch/task"
+)
 
 func ExecuteTaskPackage(taskPackage []task.Task) (WorkingInfo, []task.Task) {
 	completedTaskCount := 0
@@ -13,7 +15,7 @@ func ExecuteTaskPackage(taskPackage []task.Task) (WorkingInfo, []task.Task) {
 		if currentTaskIndex == -1 {
 			currentTaskIndex = GetNextExecutableTask(taskPackage)
 		}
-		// update all tasks
+		// update all batch
 		for i := 0; i < taskCount; i++ {
 			if !taskPackage[i].IsCompleted() {
 				taskPackage[i].Step(currentTaskIndex == i)

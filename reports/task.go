@@ -1,8 +1,8 @@
 package reports
 
 import (
-	"simulator/core/cpu"
-	"simulator/core/task"
+	"simulator/core/batch/cpu"
+	task2 "simulator/core/batch/task"
 )
 
 type TaskTimeInfo struct {
@@ -13,7 +13,7 @@ type TaskTimeInfo struct {
 	WorkingTime int    `json:"working_time"`
 }
 
-func GenerateTaskPackageTimeReport(completedTaskPackage []task.Task) []TaskTimeInfo {
+func GenerateTaskPackageTimeReport(completedTaskPackage []task2.Task) []TaskTimeInfo {
 	var report []TaskTimeInfo
 	for _, completedTask := range completedTaskPackage {
 		report = append(report, TaskTimeInfo{
@@ -36,7 +36,7 @@ func GenerateCpuActivityReport() []CpuActivityInfo {
 	var report []CpuActivityInfo
 	for taskCount := 10; taskCount <= 100; taskCount += 5 {
 		// 1. generate task package
-		taskPackage, _, _ := task.GenerateTaskPackage(taskCount)
+		taskPackage, _, _ := task2.GenerateTaskPackage(taskCount)
 		// 2. process task package
 		workingInfo, taskPackage := cpu.ExecuteTaskPackage(taskPackage)
 		// 3. add info
@@ -58,7 +58,7 @@ func GenerateAverageTaskMetricsReport() []AverageTaskMetrics {
 	var report []AverageTaskMetrics
 	for taskCount := 10; taskCount <= 100; taskCount += 5 {
 		// 1. generate task package
-		taskPackage, _, _ := task.GenerateTaskPackage(taskCount)
+		taskPackage, _, _ := task2.GenerateTaskPackage(taskCount)
 		// 2. process task package
 		_, taskPackage = cpu.ExecuteTaskPackage(taskPackage)
 		// 3. calculate average live time and complexity

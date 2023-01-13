@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/gorilla/mux"
 	"simulator/middleware/base"
-	"simulator/middleware/tasks"
+	"simulator/middleware/batch"
 )
 
 func Router() *mux.Router {
@@ -13,12 +13,12 @@ func Router() *mux.Router {
 	// common
 	router.HandleFunc("/api/ping", base.Ping)
 
-	// tasks
-	router.HandleFunc("/api/generate-task-package", tasks.GenerateRandomTaskPackage).Methods("POST")
-	router.HandleFunc("/api/process-task-package", tasks.ProcessTaskPackage).Methods("POST")
-	router.HandleFunc("/api/task-package-time-report", tasks.GenerateTaskPackageTimeReport).Methods("POST")
-	router.HandleFunc("/api/cpu-activity-report", tasks.GenerateCpuActivityReport).Methods("GET")
-	router.HandleFunc("/api/average-task-metrics-report", tasks.GenerateAverageTaskMetricsReport).Methods("GET")
+	// batch
+	router.HandleFunc("/api/generate-task-package", batch.GenerateRandomTaskPackage).Methods("POST")
+	router.HandleFunc("/api/process-task-package", batch.ProcessTaskPackage).Methods("POST")
+	router.HandleFunc("/api/task-package-time-report", batch.GenerateTaskPackageTimeReport).Methods("POST")
+	router.HandleFunc("/api/cpu-activity-report", batch.GenerateCpuActivityReport).Methods("GET")
+	router.HandleFunc("/api/average-task-metrics-report", batch.GenerateAverageTaskMetricsReport).Methods("GET")
 
 	return router
 }

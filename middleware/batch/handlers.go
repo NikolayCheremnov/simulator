@@ -1,10 +1,10 @@
-package tasks
+package batch
 
 import (
 	"encoding/json"
 	"net/http"
-	"simulator/core/cpu"
-	"simulator/core/task"
+	"simulator/core/batch/cpu"
+	"simulator/core/batch/task"
 	"simulator/logger"
 	"simulator/middleware/base"
 	"simulator/reports"

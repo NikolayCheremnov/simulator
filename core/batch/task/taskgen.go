@@ -10,7 +10,7 @@ func GenerateTaskPackage(count int) ([]Task, int, int) {
 	// randomizers
 	boolgen := random2.BoolRandom()
 	intgen := random2.IntRandom()
-	// tasks generation
+	// batch generation
 	var tasks []Task
 	totalRequiredCpuTime, totalRequiredIoTime := 0, 0
 	for i := 0; i < count; i++ {

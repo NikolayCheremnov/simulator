@@ -1,8 +1,8 @@
-package tasks
+package batch
 
 import (
-	"simulator/core/cpu"
-	"simulator/core/task"
+	"simulator/core/batch/cpu"
+	"simulator/core/batch/task"
 )
 
 type TaskPackageGenerationArgs struct {
