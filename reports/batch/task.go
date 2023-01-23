@@ -1,4 +1,4 @@
-package reports
+package batch
 
 import (
 	"simulator/core/batch/cpu"

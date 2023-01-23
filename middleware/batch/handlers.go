@@ -7,7 +7,7 @@ import (
 	"simulator/core/batch/task"
 	"simulator/logger"
 	"simulator/middleware/base"
-	"simulator/reports"
+	"simulator/reports/batch"
 )
 
 func GenerateRandomTaskPackage(w http.ResponseWriter, r *http.Request) {
@@ -52,7 +52,7 @@ func GenerateTaskPackageTimeReport(w http.ResponseWriter, r *http.Request) {
 	if base.ErrorHandling(err, "Can`t decode request body for GenerateTaskPackageTimeReport args", w) != nil {
 		return
 	}
-	result := reports.GenerateTaskPackageTimeReport(args.TaskPackage)
+	result := batch.GenerateTaskPackageTimeReport(args.TaskPackage)
 	logger.Info.Println("task package time report generated")
 	err = json.NewEncoder(w).Encode(result)
 	if base.ErrorHandling(err, "Can`t encode result for GenerateTaskPackageTimeReport", w) != nil {
@@ -61,7 +61,7 @@ func GenerateTaskPackageTimeReport(w http.ResponseWriter, r *http.Request) {
 }
 
 func GenerateCpuActivityReport(w http.ResponseWriter, r *http.Request) {
-	result := reports.GenerateCpuActivityReport()
+	result := batch.GenerateCpuActivityReport()
 	logger.Info.Println("cpu activity report generated")
 	err := json.NewEncoder(w).Encode(result)
 	if base.ErrorHandling(err, "Can`t encode result for GenerateCpuActivityReport", w) != nil {
@@ -70,7 +70,7 @@ func GenerateCpuActivityReport(w http.ResponseWriter, r *http.Request) {
 }
 
 func GenerateAverageTaskMetricsReport(w http.ResponseWriter, r *http.Request) {
-	result := reports.GenerateAverageTaskMetricsReport()
+	result := batch.GenerateAverageTaskMetricsReport()
 	logger.Info.Println("average task metrics report generated")
 	err := json.NewEncoder(w).Encode(result)
 	if base.ErrorHandling(err, "Can`t encode result for GenerateAverageTaskMetricsReport", w) != nil {
